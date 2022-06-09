@@ -1,5 +1,27 @@
 var issueContainerEl = document.querySelector("#issues-container");
 var limitWarningEl = document.querySelector("#limit-warning");
+var repoNameEl = document.querySelector("#repo-name");
+
+var getRepoName = function() {
+
+    //this represents this = "repo=itsmarcotime/4-javascript-quiz" from url query string
+    var queryString = document.location.search;
+
+    //split will remove the "=" and make an array out of "repo" & "itsmarcotime/4-javascript-quiz"
+    //we want the second array "itsmarcotime/4-javascript-quiz" but index starts at zero so use "[1]" to get second array.
+    var repoName = queryString.split("=")[1];
+
+    //if repo exits then display the repo if not then take user back to start page
+    if (repoName) {
+
+        repoNameEl.textContent = repoName;
+
+        getRepoIssues(repoName);
+    } else {
+        document.location.replace("./index.html");
+    }
+
+};
 
 var getRepoIssues = function(repo) {
 
@@ -22,7 +44,8 @@ var getRepoIssues = function(repo) {
             });
 
         } else {
-            alert("There was a problem with your request!");
+            //if not successful redirct to homepage
+            document.location.replace("./index.html");
         }
     });
 
@@ -90,4 +113,4 @@ var displayWarning = function(repo) {
 
 };
 
-getRepoIssues("facebook/react");
+getRepoName();
